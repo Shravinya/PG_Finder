@@ -1,0 +1,613 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --syne: 'Syne', sans-serif;
+  --dm: 'DM Sans', sans-serif;
+  --ink: #0D0D0D;
+  --ink2: #3A3A3A;
+  --muted: #7A7A7A;
+  --surface: #F5F3EF;
+  --card: #FFFFFF;
+  --border: rgba(0,0,0,0.09);
+  --accent: #E8531A;
+  --accent2: #FF7A45;
+  --green: #1A7A4A;
+  --greenl: #E8F5EE;
+  --blue: #1A3D7A;
+  --bluel: #E8EEFA;
+}
+
+body { font-family: var(--dm); background: var(--surface); color: var(--ink); }
+
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; height: 60px;
+  background: var(--card); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.nav-logo { font-family: var(--syne); font-weight: 800; font-size: 18px; letter-spacing: -0.5px; color: var(--ink); display:flex; align-items:center; gap:8px;}
+.nav-logo span { background: var(--accent); color: #fff; border-radius: 6px; padding: 2px 7px; font-size:14px;}
+.nav-links { display:flex; gap:2rem; }
+.nav-links a { font-size:14px; color:var(--ink2); text-decoration:none; font-weight:500; cursor:pointer; }
+.nav-links a:hover { color:var(--accent); }
+.nav-cta { display:flex; gap:8px; align-items:center; }
+.btn-ghost { padding:7px 16px; border-radius:8px; border:1px solid var(--border); font-family:var(--dm); font-size:13px; font-weight:500; background:transparent; cursor:pointer; color:var(--ink); }
+.btn-ghost:hover { background:var(--surface); }
+.btn-primary { padding:8px 18px; border-radius:8px; border:none; background:var(--accent); color:#fff; font-family:var(--dm); font-size:13px; font-weight:500; cursor:pointer; }
+.btn-primary:hover { background:#d0460f; }
+
+.tabs { display:flex; gap:6px; padding:1rem 2.5rem 0; background:var(--card); border-bottom:1px solid var(--border); }
+.tab { padding:10px 18px; font-family:var(--dm); font-size:13px; font-weight:500; cursor:pointer; border-radius:8px 8px 0 0; border:none; background:transparent; color:var(--muted); border-bottom:2px solid transparent; }
+.tab.active { color:var(--accent); border-bottom:2px solid var(--accent); background:transparent; }
+.tab:hover:not(.active) { background:var(--surface); color:var(--ink); }
+
+.view { display:none; }
+.view.active { display:block; }
+
+/* LANDING */
+.hero { padding: 5rem 2.5rem 4rem; background: var(--card); position:relative; overflow:hidden;}
+.hero-eyebrow { display:inline-flex; align-items:center; gap:8px; background: var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:12px; font-weight:500; color:var(--muted); margin-bottom:2rem; }
+.hero-eyebrow span { width:7px; height:7px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.6;transform:scale(1.3);} }
+.hero h1 { font-family:var(--syne); font-size:54px; font-weight:800; line-height:1.05; letter-spacing:-2px; color:var(--ink); max-width:640px; margin-bottom:1.5rem; }
+.hero h1 em { color:var(--accent); font-style:normal; }
+.hero p { font-size:17px; color:var(--muted); line-height:1.7; max-width:480px; margin-bottom:2.5rem; font-weight:300;}
+.hero-btns { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:3rem; }
+.btn-lg { padding:14px 28px; border-radius:10px; font-family:var(--dm); font-size:15px; font-weight:500; cursor:pointer; border:none; }
+.btn-lg-primary { background:var(--accent); color:#fff; }
+.btn-lg-primary:hover { background:#d0460f; }
+.btn-lg-ghost { background:transparent; border:1.5px solid var(--border); color:var(--ink); }
+.btn-lg-ghost:hover { background:var(--surface); }
+.hero-stats { display:flex; gap:3rem; }
+.stat { }
+.stat-num { font-family:var(--syne); font-size:28px; font-weight:800; color:var(--ink); }
+.stat-label { font-size:12px; color:var(--muted); margin-top:2px; }
+.hero-visual { position:absolute; right:2.5rem; top:50%; transform:translateY(-50%); width:340px; }
+.hero-chat-preview { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.25rem; box-shadow:0 20px 60px rgba(0,0,0,0.08); }
+.chat-header-preview { font-family:var(--syne); font-size:13px; font-weight:700; color:var(--ink); margin-bottom:1rem; display:flex; align-items:center; gap:8px; }
+.chat-dot { width:8px; height:8px; background:var(--accent); border-radius:50%; }
+.msg { padding:10px 14px; border-radius:12px; font-size:13px; line-height:1.5; margin-bottom:8px; max-width:85%; }
+.msg-agent { background:var(--surface); color:var(--ink); border-bottom-left-radius:4px; }
+.msg-user { background:var(--accent); color:#fff; margin-left:auto; border-bottom-right-radius:4px; }
+.msg-typing { background:var(--surface); border-bottom-left-radius:4px; display:inline-flex; gap:4px; padding:12px 16px; }
+.dot-anim { width:6px; height:6px; background:var(--muted); border-radius:50%; animation:bounce 1.2s infinite; }
+.dot-anim:nth-child(2){animation-delay:0.2s;}
+.dot-anim:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-5px);}}
+
+.steps-section { padding:4rem 2.5rem; }
+.section-label { font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:1rem; }
+.section-title { font-family:var(--syne); font-size:34px; font-weight:800; letter-spacing:-1px; color:var(--ink); margin-bottom:3rem; }
+.steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+.step-card { background:var(--card); border-radius:16px; border:1px solid var(--border); padding:2rem; position:relative; }
+.step-num { font-family:var(--syne); font-size:48px; font-weight:800; color:var(--surface); line-height:1; margin-bottom:1rem; position:absolute; top:1.5rem; right:1.5rem;}
+.step-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:1rem; }
+.step-card h3 { font-family:var(--syne); font-size:18px; font-weight:700; margin-bottom:0.5rem; }
+.step-card p { font-size:14px; color:var(--muted); line-height:1.6; }
+
+.features-section { padding:4rem 2.5rem; background:var(--ink); color:#fff; }
+.features-section .section-label { color:var(--accent2); }
+.features-section .section-title { color:#fff; }
+.features-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.07); border-radius:16px; overflow:hidden; }
+.feature-item { padding:2rem; background:var(--ink); }
+.feature-item:hover { background:#161616; }
+.feature-icon { font-size:24px; margin-bottom:1rem; }
+.feature-item h4 { font-family:var(--syne); font-size:16px; font-weight:700; margin-bottom:0.5rem; color:#fff;}
+.feature-item p { font-size:13px; color:rgba(255,255,255,0.5); line-height:1.6;}
+
+/* CHAT PAGE */
+.chat-layout { display:grid; grid-template-columns:60fr 40fr; height:calc(100vh - 120px); min-height:600px; }
+.chat-panel { display:flex; flex-direction:column; background:var(--card); border-right:1px solid var(--border); }
+.chat-panel-header { padding:1.25rem 1.5rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+.agent-avatar { width:36px; height:36px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--syne); font-weight:800; font-size:13px; color:#fff; flex-shrink:0;}
+.agent-info h3 { font-family:var(--syne); font-size:14px; font-weight:700; }
+.agent-info p { font-size:12px; color:var(--muted); }
+.online-dot { width:8px; height:8px; background:#22c55e; border-radius:50%; margin-left:auto; flex-shrink:0;}
+.chat-messages { flex:1; overflow-y:auto; padding:1.5rem; display:flex; flex-direction:column; gap:12px; }
+.chat-messages .msg-agent { background:var(--surface); }
+.progress-bar { padding:1rem 1.5rem; border-top:1px solid var(--border); background:var(--surface); }
+.progress-label { font-size:11px; color:var(--muted); margin-bottom:6px; display:flex; justify-content:space-between;}
+.progress-track { height:4px; background:var(--border); border-radius:2px; }
+.progress-fill { height:100%; width:50%; background:var(--accent); border-radius:2px; }
+.chat-input-area { padding:1rem 1.5rem; border-top:1px solid var(--border); display:flex; gap:8px; align-items:center; background:var(--card); }
+.chat-input { flex:1; padding:10px 16px; border-radius:10px; border:1.5px solid var(--border); font-family:var(--dm); font-size:14px; color:var(--ink); background:var(--surface); outline:none; }
+.chat-input:focus { border-color:var(--accent); background:var(--card); }
+.send-btn { width:40px; height:40px; border-radius:10px; background:var(--accent); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.send-btn svg { fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+.results-panel { display:flex; flex-direction:column; background:var(--surface); }
+.results-panel-header { padding:1.25rem 1.5rem; border-bottom:1px solid var(--border); background:var(--card); }
+.results-panel-header h3 { font-family:var(--syne); font-size:14px; font-weight:700; color:var(--ink); }
+.results-panel-header p { font-size:12px; color:var(--muted); margin-top:2px; }
+.map-placeholder { margin:1rem; border-radius:12px; background:linear-gradient(135deg,#e8eefa 0%,#d0daf5 100%); height:180px; display:flex; align-items:center; justify-content:center; border:1px solid var(--border); position:relative; overflow:hidden; }
+.map-grid { position:absolute; inset:0; opacity:0.3; }
+.map-pin { position:absolute; }
+.map-label { font-size:12px; color:var(--blue); font-weight:600; text-align:center; z-index:1; }
+.results-list { flex:1; overflow-y:auto; padding:0 1rem 1rem; display:flex; flex-direction:column; gap:10px; }
+.pg-card { background:var(--card); border-radius:12px; border:1px solid var(--border); padding:1.25rem; cursor:pointer; }
+.pg-card:hover { border-color:var(--accent); box-shadow:0 4px 20px rgba(232,83,26,0.08); }
+.pg-card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
+.pg-name { font-family:var(--syne); font-size:14px; font-weight:700; color:var(--ink); }
+.pg-area { font-size:12px; color:var(--muted); margin-top:2px; }
+.pg-rating { display:flex; align-items:center; gap:4px; font-size:12px; font-weight:600; color:var(--ink); }
+.star { color:#f59e0b; font-size:13px; }
+.pg-price { font-family:var(--syne); font-size:18px; font-weight:800; color:var(--accent); }
+.pg-price span { font-size:12px; font-weight:400; color:var(--muted); font-family:var(--dm); }
+.pg-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+.tag { padding:3px 10px; border-radius:100px; font-size:11px; font-weight:500; background:var(--surface); color:var(--ink2); border:1px solid var(--border); }
+.tag-match { background:var(--greenl); color:var(--green); border-color:transparent; }
+.pg-card-footer { display:flex; gap:8px; margin-top:12px; border-top:1px solid var(--border); padding-top:12px; }
+.pg-action { flex:1; padding:7px; border-radius:8px; font-size:12px; font-weight:500; text-align:center; cursor:pointer; border:1px solid var(--border); background:transparent; font-family:var(--dm); }
+.pg-action-primary { background:var(--accent); color:#fff; border:none; }
+
+/* AUTH */
+.auth-layout { display:grid; grid-template-columns:1fr 1fr; min-height:600px; }
+.auth-brand { background:var(--ink); padding:3rem; display:flex; flex-direction:column; justify-content:space-between; }
+.auth-brand-logo { font-family:var(--syne); font-weight:800; font-size:22px; color:#fff; display:flex; align-items:center; gap:8px; }
+.auth-brand-logo em { background:var(--accent); color:#fff; border-radius:6px; padding:2px 8px; font-size:16px; font-style:normal; }
+.auth-tagline { font-family:var(--syne); font-size:32px; font-weight:800; color:#fff; line-height:1.2; letter-spacing:-1px; }
+.auth-tagline em { color:var(--accent2); font-style:normal; }
+.auth-social { display:flex; gap:1rem; }
+.auth-social-stat { }
+.auth-social-stat strong { font-family:var(--syne); font-size:22px; font-weight:800; color:#fff; display:block; }
+.auth-social-stat span { font-size:12px; color:rgba(255,255,255,0.45); }
+.auth-form-panel { background:var(--card); padding:3rem 2.5rem; display:flex; flex-direction:column; justify-content:center; }
+.auth-form-panel h2 { font-family:var(--syne); font-size:26px; font-weight:800; letter-spacing:-0.5px; margin-bottom:0.5rem; }
+.auth-form-panel p { font-size:14px; color:var(--muted); margin-bottom:2rem; }
+.form-group { margin-bottom:1.25rem; }
+.form-label { font-size:13px; font-weight:500; color:var(--ink2); margin-bottom:6px; display:block; }
+.form-input { width:100%; padding:11px 14px; border-radius:10px; border:1.5px solid var(--border); font-family:var(--dm); font-size:14px; color:var(--ink); background:var(--surface); outline:none; }
+.form-input:focus { border-color:var(--accent); background:var(--card); }
+.role-toggle { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:1.5rem; }
+.role-btn { padding:10px; border-radius:10px; border:1.5px solid var(--border); background:transparent; font-family:var(--dm); font-size:13px; font-weight:500; cursor:pointer; color:var(--muted); text-align:center; }
+.role-btn.active { border-color:var(--accent); color:var(--accent); background:rgba(232,83,26,0.05); }
+.form-submit { width:100%; padding:13px; border-radius:10px; background:var(--accent); color:#fff; border:none; font-family:var(--dm); font-size:15px; font-weight:500; cursor:pointer; }
+.form-footer { text-align:center; font-size:13px; color:var(--muted); margin-top:1.25rem; }
+.form-footer a { color:var(--accent); font-weight:500; cursor:pointer; text-decoration:none; }
+
+/* PG Detail */
+.pg-detail { padding:2rem 2.5rem; }
+.detail-breadcrumb { font-size:13px; color:var(--muted); margin-bottom:1.5rem; }
+.detail-breadcrumb span { color:var(--accent); cursor:pointer; }
+.detail-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:2rem; }
+.detail-title { font-family:var(--syne); font-size:28px; font-weight:800; letter-spacing:-0.5px; }
+.detail-meta { display:flex; align-items:center; gap:1.5rem; margin-top:0.5rem; }
+.detail-meta span { font-size:14px; color:var(--muted); display:flex; align-items:center; gap:4px; }
+.detail-actions { display:flex; gap:8px; }
+.detail-grid { display:grid; grid-template-columns:2fr 1fr; gap:1.5rem; }
+.detail-main {}
+.photo-gallery { background:var(--surface); border-radius:16px; height:220px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:13px; margin-bottom:1.5rem; border:1px solid var(--border); position:relative; }
+.photo-badges { position:absolute; top:1rem; left:1rem; display:flex; gap:6px; }
+.info-section { background:var(--card); border-radius:16px; border:1px solid var(--border); padding:1.5rem; margin-bottom:1.25rem; }
+.info-section h4 { font-family:var(--syne); font-size:15px; font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:8px; }
+.pricing-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.price-row { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:var(--surface); border-radius:8px; }
+.price-type { font-size:13px; color:var(--ink2); }
+.price-val { font-family:var(--syne); font-size:15px; font-weight:700; color:var(--ink); }
+.amenity-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.amenity-chip { padding:5px 12px; border-radius:100px; font-size:12px; background:var(--surface); border:1px solid var(--border); color:var(--ink2); }
+.detail-sidebar {}
+.contact-card { background:var(--card); border-radius:16px; border:1px solid var(--border); padding:1.5rem; margin-bottom:1rem; }
+.contact-card h4 { font-family:var(--syne); font-size:14px; font-weight:700; margin-bottom:1rem; }
+.contact-btn { width:100%; padding:12px; border-radius:10px; font-family:var(--dm); font-size:14px; font-weight:500; cursor:pointer; margin-bottom:8px; }
+.contact-btn-primary { background:var(--accent); color:#fff; border:none; }
+.contact-btn-ghost { background:transparent; border:1.5px solid var(--border); color:var(--ink); }
+.review-card { background:var(--card); border-radius:12px; border:1px solid var(--border); padding:1.25rem; margin-bottom:8px; }
+.review-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+.reviewer { font-size:14px; font-weight:500; }
+.review-date { font-size:12px; color:var(--muted); }
+.stars { font-size:13px; color:#f59e0b; letter-spacing:1px; }
+.review-text { font-size:13px; color:var(--muted); line-height:1.6; }
+.sub-ratings { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:10px; border-top:1px solid var(--border); padding-top:10px; }
+.sub-rating { font-size:11px; color:var(--muted); }
+.sub-rating strong { color:var(--ink2); display:block; font-size:12px; }
+</style>
+
+<h2 class="sr-only">PG Finder – Full UI Design System: Landing Page, Chat Interface, Login, and PG Detail views</h2>
+
+<nav class="nav">
+  <div class="nav-logo">PG<span>Finder</span></div>
+  <div class="nav-links">
+    <a>Find a PG</a>
+    <a>List Your PG</a>
+    <a>Analytics</a>
+    <a>About</a>
+  </div>
+  <div class="nav-cta">
+    <button class="btn-ghost">Log in</button>
+    <button class="btn-primary">Get Started</button>
+  </div>
+</nav>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('landing',this)">Landing Page</button>
+  <button class="tab" onclick="switchTab('chat',this)">Chat Interface</button>
+  <button class="tab" onclick="switchTab('auth',this)">Login / Signup</button>
+  <button class="tab" onclick="switchTab('detail',this)">PG Detail Page</button>
+</div>
+
+<!-- LANDING -->
+<div class="view active" id="view-landing">
+  <div class="hero">
+    <div class="hero-eyebrow"><span></span> AI-powered PG discovery · Hyderabad</div>
+    <h1>Find your PG in <em>minutes,</em> not days.</h1>
+    <p>Just have a conversation. Our AI asks the right questions and finds your perfect match — no filters, no scrolling, no stress.</p>
+    <div class="hero-btns">
+      <button class="btn-lg btn-lg-primary" onclick="switchTabByName('chat')">Start Searching Free</button>
+      <button class="btn-lg btn-lg-ghost" onclick="switchTabByName('auth')">List Your PG →</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">1,200+</div><div class="stat-label">PGs listed</div></div>
+      <div class="stat"><div class="stat-num">5,000+</div><div class="stat-label">Happy tenants</div></div>
+      <div class="stat"><div class="stat-num">4.7★</div><div class="stat-label">Avg. rating</div></div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-chat-preview">
+        <div class="chat-header-preview"><div class="chat-dot"></div>PG Buddy · Online</div>
+        <div class="msg msg-agent">Hi Priya! Which area in Hyderabad are you looking in?</div>
+        <div class="msg msg-user">Gachibowli, near my office</div>
+        <div class="msg msg-agent">Got it! What's your monthly budget?</div>
+        <div class="msg msg-user">Around ₹8,000</div>
+        <div class="msg msg-typing"><div class="dot-anim"></div><div class="dot-anim"></div><div class="dot-anim"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps-section">
+    <div class="section-label">How it works</div>
+    <div class="section-title">Three steps to your new home</div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon" style="background:#FEF0EA;">💬</div>
+        <h3>Chat with PG Buddy</h3>
+        <p>Answer 6 simple questions in plain language. No confusing forms or filters to figure out.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon" style="background:#E8F5EE;">🏠</div>
+        <h3>Get personalized matches</h3>
+        <p>Our AI instantly finds PGs that fit your exact needs — budget, location, amenities, and more.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon" style="background:#E8EEFA;">📞</div>
+        <h3>Connect and move in</h3>
+        <p>View full details, read verified reviews, and contact owners directly. Move in fast.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-section">
+    <div class="section-label">Why PG Finder</div>
+    <div class="section-title">Everything traditional sites got wrong</div>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🤖</div>
+        <h4>AI-powered search</h4>
+        <p>Not a search engine. A conversation. Our agent understands context and finds what filters can't.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⚡</div>
+        <h4>2 minutes, not 2 hours</h4>
+        <p>Answer 6 questions. Get matched. Done. No endless scrolling through irrelevant listings.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⭐</div>
+        <h4>Verified community reviews</h4>
+        <p>Real ratings across cleanliness, maintenance, owner behavior, and value for money.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🏢</div>
+        <h4>Easy for owners too</h4>
+        <p>List your PG in minutes. Reach qualified tenants actively searching — not just browsing.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT PAGE -->
+<div class="view" id="view-chat">
+  <div class="chat-layout">
+    <div class="chat-panel">
+      <div class="chat-panel-header">
+        <div class="agent-avatar">PB</div>
+        <div class="agent-info">
+          <h3>PG Buddy</h3>
+          <p>AI Assistant · Hyderabad PG Expert</p>
+        </div>
+        <div class="online-dot"></div>
+      </div>
+      <div class="chat-messages">
+        <div class="msg msg-agent" style="font-size:14px;">Hi there! I'm PG Buddy 👋 I'll help you find the perfect PG in Hyderabad. First — what's your name?</div>
+        <div class="msg msg-user" style="font-size:14px;">Priya</div>
+        <div class="msg msg-agent" style="font-size:14px;">Nice to meet you, Priya! Which area of Hyderabad are you looking in? You can mention near your office or college too.</div>
+        <div class="msg msg-user" style="font-size:14px;">Gachibowli, near DLF Cyber City</div>
+        <div class="msg msg-agent" style="font-size:14px;">Perfect area! What's your monthly budget? (Just a rough range is fine) 💰</div>
+        <div class="msg msg-user" style="font-size:14px;">Around ₹7,000–9,000</div>
+        <div class="msg msg-agent" style="font-size:14px;">Got it! Do you have a preference for room type — single occupancy or sharing?</div>
+        <div class="msg msg-user" style="font-size:14px;">Single please, non-AC is okay</div>
+        <div class="msg msg-agent" style="font-size:14px;">Any must-have amenities? For example: WiFi, meals, laundry, parking, or any specific rules? 🏡</div>
+        <div class="msg msg-typing"><div class="dot-anim"></div><div class="dot-anim"></div><div class="dot-anim"></div></div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-label"><span>Step 5 of 6 — Almost there!</span><span>83%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:83%"></div></div>
+      </div>
+      <div class="chat-input-area">
+        <input class="chat-input" type="text" placeholder="Type your answer..."/>
+        <button class="send-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="results-panel">
+      <div class="results-panel-header">
+        <h3>Recommendations for you</h3>
+        <p>Matches appear after we finish chatting</p>
+      </div>
+      <div class="map-placeholder" style="margin:1rem;border-radius:12px;">
+        <svg class="map-grid" viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
+          <defs><pattern id="g" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0L0 0L0 30" fill="none" stroke="#185FA5" stroke-width="0.4" opacity="0.4"/></pattern></defs>
+          <rect width="340" height="180" fill="url(#g)"/>
+          <circle cx="120" cy="90" r="6" fill="#E8531A"/>
+          <circle cx="190" cy="70" r="6" fill="#E8531A"/>
+          <circle cx="230" cy="110" r="6" fill="#E8531A"/>
+          <text x="120" y="80" text-anchor="middle" font-size="9" fill="#185FA5" font-weight="600">Green Valley</text>
+          <text x="190" y="60" text-anchor="middle" font-size="9" fill="#185FA5" font-weight="600">SkyNest</text>
+          <text x="230" y="100" text-anchor="middle" font-size="9" fill="#185FA5" font-weight="600">Urban Stay</text>
+        </svg>
+        <div class="map-label">🗺 Gachibowli · 3 matches nearby</div>
+      </div>
+      <div class="results-list">
+        <div class="pg-card">
+          <div class="pg-card-top">
+            <div><div class="pg-name">Green Valley PG</div><div class="pg-area">📍 Gachibowli, 0.4 km away</div></div>
+            <div class="pg-rating"><span class="star">★</span> 4.7 <span style="color:var(--muted);font-weight:400">(24)</span></div>
+          </div>
+          <div class="pg-price">₹7,500 <span>/ month · Single Non-AC</span></div>
+          <div class="pg-tags">
+            <span class="tag tag-match">✓ In budget</span>
+            <span class="tag tag-match">✓ Near you</span>
+            <span class="tag">WiFi</span>
+            <span class="tag">Meals included</span>
+            <span class="tag">Ladies only</span>
+          </div>
+          <div class="pg-card-footer">
+            <button class="pg-action" onclick="switchTabByName('detail')">View Details</button>
+            <button class="pg-action pg-action-primary">Save ❤</button>
+          </div>
+        </div>
+
+        <div class="pg-card">
+          <div class="pg-card-top">
+            <div><div class="pg-name">SkyNest Residency</div><div class="pg-area">📍 Kondapur, 1.2 km away</div></div>
+            <div class="pg-rating"><span class="star">★</span> 4.5 <span style="color:var(--muted);font-weight:400">(18)</span></div>
+          </div>
+          <div class="pg-price">₹8,200 <span>/ month · Single Non-AC</span></div>
+          <div class="pg-tags">
+            <span class="tag tag-match">✓ In budget</span>
+            <span class="tag">WiFi</span>
+            <span class="tag">AC available</span>
+            <span class="tag">Laundry</span>
+          </div>
+          <div class="pg-card-footer">
+            <button class="pg-action" onclick="switchTabByName('detail')">View Details</button>
+            <button class="pg-action pg-action-primary">Save ❤</button>
+          </div>
+        </div>
+
+        <div class="pg-card" style="opacity:0.6;">
+          <div class="pg-card-top">
+            <div><div class="pg-name">Urban Stay PG</div><div class="pg-area">📍 Gachibowli, 0.8 km away</div></div>
+            <div class="pg-rating"><span class="star">★</span> 4.3 <span style="color:var(--muted);font-weight:400">(11)</span></div>
+          </div>
+          <div class="pg-price">₹6,800 <span>/ month · Single Non-AC</span></div>
+          <div class="pg-tags"><span class="tag">WiFi</span><span class="tag">Parking</span></div>
+          <div class="pg-card-footer">
+            <button class="pg-action">View Details</button>
+            <button class="pg-action pg-action-primary">Save ❤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div class="view" id="view-auth">
+  <div class="auth-layout">
+    <div class="auth-brand">
+      <div class="auth-brand-logo">PG<em>Finder</em></div>
+      <div>
+        <div class="auth-tagline">Your home,<br><em>one chat away.</em></div>
+        <p style="color:rgba(255,255,255,0.45);font-size:14px;margin-top:1rem;line-height:1.7;">Join thousands of tenants who found their perfect PG without endless scrolling.</p>
+      </div>
+      <div class="auth-social">
+        <div class="auth-social-stat"><strong>1,200+</strong><span>PGs listed</span></div>
+        <div class="auth-social-stat"><strong>5,000+</strong><span>Happy tenants</span></div>
+        <div class="auth-social-stat"><strong>4.7★</strong><span>Avg. rating</span></div>
+      </div>
+    </div>
+    <div class="auth-form-panel">
+      <h2>Create your account</h2>
+      <p>Already have one? <a>Sign in instead</a></p>
+
+      <div class="role-toggle">
+        <button class="role-btn active">🔍 I'm a Tenant</button>
+        <button class="role-btn" onclick="this.parentNode.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">🏠 I'm a PG Owner</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Full name</label>
+        <input class="form-input" type="text" placeholder="Priya Sharma"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email address</label>
+        <input class="form-input" type="email" placeholder="priya@gmail.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" placeholder="Create a password"/>
+      </div>
+      <button class="form-submit" onclick="switchTabByName('chat')">Create Account →</button>
+      <div class="form-footer">By signing up, you agree to our <a>Terms</a> and <a>Privacy Policy</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- PG DETAIL -->
+<div class="view" id="view-detail">
+  <div class="pg-detail">
+    <div class="detail-breadcrumb">
+      <span onclick="switchTabByName('chat')">← Back to results</span> · Green Valley PG
+    </div>
+    <div class="detail-header">
+      <div>
+        <div class="detail-title">Green Valley PG</div>
+        <div class="detail-meta">
+          <span>📍 Gachibowli, Hyderabad</span>
+          <span>👥 Ladies only</span>
+          <span>⭐ 4.7 · 24 reviews</span>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <button class="btn-ghost">❤ Save</button>
+        <button class="btn-primary">📞 Contact Owner</button>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-main">
+        <div class="photo-gallery">
+          <div class="photo-badges">
+            <span class="tag tag-match">✓ In your budget</span>
+            <span class="tag tag-match">✓ 0.4 km away</span>
+          </div>
+          <span style="color:var(--muted);font-size:13px;">📷 Photos coming soon</span>
+        </div>
+
+        <div class="info-section">
+          <h4>💰 Pricing</h4>
+          <div class="pricing-grid">
+            <div class="price-row"><span class="price-type">Single Non-AC</span><span class="price-val">₹7,500</span></div>
+            <div class="price-row"><span class="price-type">Single AC</span><span class="price-val">₹9,500</span></div>
+            <div class="price-row"><span class="price-type">Double Non-AC</span><span class="price-val">₹5,500/head</span></div>
+            <div class="price-row"><span class="price-type">Double AC</span><span class="price-val">₹7,000/head</span></div>
+          </div>
+          <div style="margin-top:12px;padding:10px 12px;background:var(--surface);border-radius:8px;font-size:13px;color:var(--muted);">
+            Advance: 2 months &nbsp;·&nbsp; Electricity: Included &nbsp;·&nbsp; Rooms available: 3
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h4>✨ Amenities</h4>
+          <div class="amenity-grid">
+            <span class="amenity-chip">📶 WiFi</span>
+            <span class="amenity-chip">❄️ AC</span>
+            <span class="amenity-chip">🍽 Meals included</span>
+            <span class="amenity-chip">🚗 Parking</span>
+            <span class="amenity-chip">🧺 Laundry</span>
+            <span class="amenity-chip">🔐 CCTV</span>
+            <span class="amenity-chip">🛁 Attached bathroom</span>
+            <span class="amenity-chip">🏋 Gym</span>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h4>📋 Rules</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--muted);">
+            <span>🚫 No cooking</span><span>✅ Visitors allowed (till 9pm)</span>
+            <span>🚫 No pets</span><span>✅ Work from home ok</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-family:var(--syne);font-size:15px;font-weight:700;margin-bottom:1rem;">⭐ Reviews (24)</h4>
+          <div class="review-card">
+            <div class="review-header">
+              <div><div class="reviewer">Sneha R.</div><div class="review-date">March 2026</div></div>
+              <div class="stars">★★★★★</div>
+            </div>
+            <div class="review-text">Fantastic place! The owner is very responsive and the rooms are spacious. WiFi is fast and meals are decent.</div>
+            <div class="sub-ratings">
+              <div class="sub-rating"><strong>Cleanliness: 5/5</strong></div>
+              <div class="sub-rating"><strong>Maintenance: 4/5</strong></div>
+              <div class="sub-rating"><strong>Owner behavior: 5/5</strong></div>
+              <div class="sub-rating"><strong>Value for money: 5/5</strong></div>
+            </div>
+          </div>
+          <div class="review-card">
+            <div class="review-header">
+              <div><div class="reviewer">Divya K.</div><div class="review-date">Jan 2026</div></div>
+              <div class="stars">★★★★☆</div>
+            </div>
+            <div class="review-text">Good location, easy to commute to Cyber City. Minor issues with hot water sometimes but owner fixed it quickly.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-sidebar">
+        <div class="contact-card">
+          <h4>📞 Contact Owner</h4>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Owner: Ramesh Kumar · Active today</div>
+          <button class="contact-btn contact-btn-primary">Call: 98765 43210</button>
+          <button class="contact-btn contact-btn-ghost">💬 WhatsApp</button>
+          <button class="contact-btn contact-btn-ghost">📧 Send email</button>
+        </div>
+        <div class="contact-card">
+          <h4>📍 Location</h4>
+          <div style="background:var(--surface);border-radius:10px;height:120px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);margin-bottom:1rem;border:1px solid var(--border);">Map loading...</div>
+          <div style="font-size:13px;color:var(--muted);">123 MG Road, Gachibowli<br>Near DLF Cyber City</div>
+        </div>
+        <div class="contact-card">
+          <h4>📊 Quick Stats</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="background:var(--surface);border-radius:8px;padding:12px;text-align:center;">
+              <div style="font-family:var(--syne);font-size:20px;font-weight:800;">4.7</div>
+              <div style="font-size:11px;color:var(--muted);">Overall</div>
+            </div>
+            <div style="background:var(--surface);border-radius:8px;padding:12px;text-align:center;">
+              <div style="font-family:var(--syne);font-size:20px;font-weight:800;">24</div>
+              <div style="font-size:11px;color:var(--muted);">Reviews</div>
+            </div>
+            <div style="background:var(--surface);border-radius:8px;padding:12px;text-align:center;">
+              <div style="font-family:var(--syne);font-size:20px;font-weight:800;">3</div>
+              <div style="font-size:11px;color:var(--muted);">Rooms free</div>
+            </div>
+            <div style="background:var(--surface);border-radius:8px;padding:12px;text-align:center;">
+              <div style="font-family:var(--syne);font-size:20px;font-weight:800;">2yr</div>
+              <div style="font-size:11px;color:var(--muted);">Listed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('view-' + name).classList.add('active');
+}
+function switchTabByName(name) {
+  const tabs = document.querySelectorAll('.tab');
+  const names = ['landing','chat','auth','detail'];
+  const idx = names.indexOf(name);
+  if(idx>=0) switchTab(name, tabs[idx]);
+}
+document.querySelectorAll('.role-btn').forEach(b => {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.role-btn').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>

@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /.next/
+Disallow: /node_modules/
+
+Sitemap: https://pgfinder.com/sitemap.xml
+
+# Crawl delay (in seconds)
+Crawl-delay: 1
+
+# Request rate (pages per second)
+Request-rate: 10/1
+
+# Cache control
+Cache-control: public, max-age=604800
